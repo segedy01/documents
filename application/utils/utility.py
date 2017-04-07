@@ -8,7 +8,7 @@ valid_extension = ['jpeg', 'pdf', 'jpg', 'docx', 'doc', 'png', 'txt', 'text']
 
 
 def generate_auth_token(value):
-    s = Serializer(secret_key='SECRET_KEY')
+    s = Serializer(secret_key='SECRET_KEY', expires_in=3600)
     return s.dumps({'token': value})
 
 
@@ -77,4 +77,4 @@ def check_if_doc_exist(doc_name, name):
             return doc_name
     except Exception as e:
         print e
-        return " Something we dont understand went wrong"
+        return "Something we dont understand went wrong"
