@@ -67,13 +67,13 @@ def delete_document_data(http_request):
     token = http_request.headers.get('X-Client-ID')
     des_token = verify_auth_token(token)
 
-    email = des_token['token'].get('email')
-    role = des_token['token'].get('role')
-
-    current_session = db.session
     json_payload = http_request.json
 
     try:
+        email = des_token['token'].get('email')
+        role = des_token['token'].get('role')
+
+        current_session = db.session
         if not json_payload:
             status = False
             msg = 'Please check Json Documentation or learn Json kungfu from a Json samurai'
@@ -115,3 +115,42 @@ def delete_document_data(http_request):
         msg = 'Something went wrong. Contact admin for more information'
         code = 400
         return status, msg, code
+
+def view_all_document(http_request):
+    token = http_request.headers.get('X-Client-ID')
+    des_token = verify_auth_token(token)
+
+    try:
+        email = des_token['token'].get('email')
+        role = des_token['token'].get('role')
+
+        user = Users.query.filter_by(email=email).first()
+        if not user or not role == 'User':
+            status = False
+            msg = 'Forbidden!!! You do not have the right for this'
+            code = 415
+            data = ''
+            return status, msg, data, code
+
+        available_documents = DocumentMetaData.query.filter().all()
+        documents = []
+        for docs in available_documents:
+            current_doc = {}
+            current_doc['Document Idnetifier'] = docs.document_identifier
+            current_doc['Document Name'] = docs.name
+            documents.append(current_doc)
+
+        status = True
+        msg = 'Success'
+        code = 200
+        data = documents
+        return status, msg, data, code
+
+    except Exception as e:
+
+        print e
+        status = False
+        msg = 'Something went wrong. Contact admin for more information'
+        code = 500
+        data = ''
+        return status, msg, data, code
