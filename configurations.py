@@ -13,7 +13,7 @@ class Config(object):
     """
     #: main config
     SECRET_KEY = 'cRypt0!N$yb0l$'
-    SQLALCHEMY_DATABASE_URI = 'postgres://beast:beast@localhost:5432/DOCSYSTEM'
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SECURITY_PASSWORD_SALT = 'cRypt0!N$yb0l$|^^33+D0>+Or$'
     WTF_CSRF_ENABLED = True
 
