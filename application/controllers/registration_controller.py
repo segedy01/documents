@@ -17,7 +17,7 @@ def create_user_controller(http_request):
         name = json_payload.get('name')
         email = json_payload.get('email')
         password = json_payload.get('password')
-        roles = "User"
+        roles = "Admin"
 
         if email is None or password is None or name is None :
             status = False
