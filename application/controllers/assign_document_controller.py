@@ -24,7 +24,7 @@ def create_assign(http_request):
             return status, msg, code
 
         user = Users.query.filter_by(email=email).first()
-        if not user or not role == 'User':
+        if not user or not role == 'Admin':
             status = False
             msg = 'Forbidden!!! You do not have the right for this'
             code = 415

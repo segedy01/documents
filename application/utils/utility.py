@@ -8,11 +8,28 @@ valid_extension = ['jpeg', 'pdf', 'jpg', 'docx', 'doc', 'png', 'txt', 'text']
 
 
 def generate_auth_token(value):
+    """
+        Function to generate a token using itsdagerous library
+        Args:
+            Value(dict): A dictionary containing neccesary data to serialise
+
+        Returns:
+            token(str): a serialised value
+    """
+
     s = Serializer(secret_key='SECRET_KEY', expires_in=3600)
     return s.dumps({'token': value})
 
 
 def verify_auth_token(token):
+    """
+        Function to deserialise a token using itsdagerous library
+        Args:
+            Value(str):
+
+        Returns:
+            data(dict): a serialised value
+    """
     s = Serializer(secret_key='SECRET_KEY')
     try:
         data = s.loads(token)
@@ -22,6 +39,18 @@ def verify_auth_token(token):
         return e
 
 def is_valid_file(filename):
+    """
+        THe fucntion checks if a filetype is valid or not.
+        it compares the file extension with a list of value
+        and checks if it exists.
+
+        Args:
+            filename(str): The name of the file to check
+
+        Return:
+            a tuple containing a boolean and a string
+    """
+
     split_file = filename.split('.')
     extension = split_file[-1]
     if extension in valid_extension:

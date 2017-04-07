@@ -81,7 +81,7 @@ def delete_document_data(http_request):
             return status, msg, code
 
         user = Users.query.filter_by(email=email).first()
-        if not user or not role == 'User':
+        if not user or not role == 'Admin':
             status = False
             msg = 'Forbidden!!! You do not have the right for this'
             code = 415
@@ -125,7 +125,7 @@ def view_all_document(http_request):
         role = des_token['token'].get('role')
 
         user = Users.query.filter_by(email=email).first()
-        if not user or not role == 'User':
+        if not user or not role == 'Admin':
             status = False
             msg = 'Forbidden!!! You do not have the right for this'
             code = 415
